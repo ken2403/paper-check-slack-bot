@@ -1,5 +1,8 @@
 # paper-check-slack-bot
 
+![sample](https://github.com/ken2403/paper-check-slack-bot/blob/feat/images/image/sample.png)
+An application that collects the latest articles from [arxiv](https://arxiv.org/), summarizes them with [chatGPT](https://openai.com/blog/chatgpt), and posts them to [slack](https://slack.com).
+
 ## Requirements
 
 - [Python](https://www.python.org/) >= 3.7
