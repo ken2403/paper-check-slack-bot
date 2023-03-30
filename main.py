@@ -8,7 +8,6 @@ import json
 import datetime
 import logging
 
-from dotenv import load_dotenv
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import arxiv
@@ -17,7 +16,6 @@ import openai
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
@@ -25,8 +23,8 @@ def get_papers_from_arxiv(
     categories: list[str] = ["cs.LG", "physics.chem-ph"],
     max_results: int = 3,
     fetch_results: int = 20,
-    delivered_ids: set[str] = set(),
-) -> tuple[list[arxiv.Result], set[str]]:
+    delivered_ids: list[str] = [],
+) -> tuple[list[arxiv.Result], list[str]]:
     # get papers
     query = " AND ".join([f"cat:{c}" for c in categories])
     search = arxiv.Search(
@@ -93,19 +91,22 @@ def main():
     title = args.news_title
     today = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    # Get a delivered ID
+    # Get a delivered IDs
     ids_file = f"/app/args/{file_name.split('.')[0]}_id.p"
     if os.path.exists(ids_file):
         with open(ids_file, "rb") as f:
-            delivered_ids: set[str] = pickle.load(f)
+            delivered_ids: list[str] = pickle.load(f)
     else:
-        delivered_ids: set[str] = []
+        delivered_ids: list[str] = []
+    if len(delivered_ids) > args.fetch_results:
+        delivered_ids = delivered_ids[: args.fetch_results]
 
-    # get papers
+    # Get papers
     papers, new_ids = get_papers_from_arxiv(args.categories, args.max_results, args.fetch_results, delivered_ids)
 
-    # push to slack
+    # Push to slack
     client = WebClient(token=os.getenv("SLACK_API_TOKEN"))
+    # no new message
     if len(papers) == 0:
         message = f"""
         :x: *{title}* ({today}) :x:
@@ -121,7 +122,7 @@ def main():
 
         logger.info("No new papers")
         return
-
+    # post new papers
     for i, result in enumerate(papers):
         try:
             message = f"""
@@ -139,7 +140,7 @@ def main():
             print(e)
             logger.info(f"Error posting {i}th message: {e}")
 
-    # save delivered IDs
+    # Save delivered IDs
     with open(ids_file, "wb") as f:
         pickle.dump(new_ids, f)
 
