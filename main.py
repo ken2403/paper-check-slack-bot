@@ -8,14 +8,17 @@ import json
 import datetime
 import logging
 
+import arxiv
+from dotenv import load_dotenv
+import openai
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-import arxiv
-import openai
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
