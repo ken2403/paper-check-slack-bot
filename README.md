@@ -5,7 +5,6 @@
 - [Python](https://www.python.org/) >= 3.7
 - [arxiv](http://lukasschwab.me/arxiv.py/index.html) == 1.4.3
 - [OpenAI Python Library](https://platform.openai.com/docs/api-reference?lang=python) == 0.27.2
-- [python-dotenv](https://saurabh-kumar.com/python-dotenv/) == 1.0.0
 - [Python Slack SDK](https://slack.dev/python-slack-sdk/) == 3.20.1
 
 ## Usage
@@ -14,7 +13,7 @@
     copy `args.json.sample` to `args/` directory and edit it.
 
     ```bash
-    cp args.json.sample args/your_name.json
+    cp args.json.sample args/your_args.json
     ```
 
 2. Build and run the docker container.
@@ -24,10 +23,10 @@
     (paper-check-slack-bot) docker-compose build
     ```
 
-    Run the docker container.
+    Run the docker container with custom argument file.
 
     ```bash
-    docker-compose run paper-check-slack-bot
+    docker-compose run paper-check-slack-bot your_args.json
     ```
 
 ## Reference
