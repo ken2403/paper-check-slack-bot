@@ -27,7 +27,7 @@
     Run the docker container.
 
     ```bash
-    docker-compose run slack-bot
+    docker-compose run paper-check-slack-bot
     ```
 
 ## Reference

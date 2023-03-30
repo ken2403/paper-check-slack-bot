@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  slack-bot:
+  paper-check-slack-bot:
     build: .
     volumes:
       - type: bind
