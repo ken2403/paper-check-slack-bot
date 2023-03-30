@@ -1,0 +1,4 @@
+arxiv==1.4.3
+openai==0.27.2
+python-dotenv==1.0.0
+slack-sdk==3.20.1

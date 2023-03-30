@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  slack-bot:
+    build: .
+    volumes:
+      - type: bind
+        source: ./args
+        target: /app/args

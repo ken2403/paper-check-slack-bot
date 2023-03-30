@@ -1,0 +1,10 @@
+{
+    "news_title": "MI latest papers",
+    "post_channel": "#おすすめ論文",
+    "categories": [
+        "cs.LG",
+        "physics.chem-ph"
+    ],
+    "max_results": 3,
+    "fetch_results": 10
+}
