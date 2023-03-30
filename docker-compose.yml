@@ -6,3 +6,5 @@ services:
       - type: bind
         source: ./args
         target: /app/args
+    env_file:
+      - .env
