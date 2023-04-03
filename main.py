@@ -105,7 +105,9 @@ def main():
         delivered_ids = delivered_ids[: args.fetch_results]
 
     # Get papers
-    papers, new_ids = get_papers_from_arxiv(args.categories, args.max_results, args.fetch_results, delivered_ids)
+    papers, new_ids = get_papers_from_arxiv(
+        args.categories, args.max_results, args.fetch_results, delivered_ids
+    )
 
     # Push to slack
     client = WebClient(token=os.getenv("SLACK_API_TOKEN"))
@@ -127,14 +129,18 @@ def main():
         return
     # post new papers
     for i, result in enumerate(papers):
-        try:
-            message = f"""
+        # try:
+        #     message = f"""
+        #     :newspaper: *{title}* ({today}, {i+1}/{len(papers)}) :newspaper:
+        #     {get_summary(result)}
+        #     """
+        # except Exception as e:
+        #     logger.info(f"Error summarize {i}th paper: {e}")
+        #     continue
+        message = f"""
             :newspaper: *{title}* ({today}, {i+1}/{len(papers)}) :newspaper:
-            {get_summary(result)}
+            {result.summary}
             """
-        except Exception as e:
-            logger.info(f"Error summarize {i}th paper: {e}")
-            continue
 
         try:
             response = client.chat_postMessage(channel=args.post_channel, text=message)
