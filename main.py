@@ -139,6 +139,10 @@ def main():
         #     continue
         message = f"""
             :newspaper: *{title}* ({today}, {i+1}/{len(papers)}) :newspaper:
+            *Issue date*: {result.published.strftime("%Y-%m-%d %H:%M")}
+            *ID*: {result.entry_id}
+            *Title*: {result.title}
+            *Summary*:
             {result.summary}
             """
 
